@@ -1,0 +1,11 @@
+RewriteEngine On
+Options +FollowSymlinks
+
+RewriteBase /web/learning/s-app-server/s-app-server/src/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^api/(.*)/(.*)/(.*) index.php?request=api&version=$1&controller=$2&method=$3 [QSA,L,END]
+
+RewriteCond %{REQUEST_URI} !.*\.(css|js|html|png|jpg|jpeg|gif|txt|woff|eot|pdf|docx|xlsx|sheet)
+RewriteRule ^(.*) error.php [NC,L]
