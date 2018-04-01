@@ -23,6 +23,10 @@ function getController($controller) {
     $status = true;
     $name = 'StoryController';
     break;
+    case 'stories':
+    $status = true;
+    $name = 'StoriesController';
+    break;
     default:
     break;
   }
