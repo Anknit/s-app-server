@@ -63,6 +63,40 @@ class StoryController
     return array('status' => $status, 'data' => $data, 'error' => $error);
 
   }
+
+  public function create(){
+    $requestMethod = $_SERVER['REQUEST_METHOD'];
+    $status = false;
+    $response = array();
+    $data = array();
+    $error = '';
+
+    if($requestMethod === 'POST'){
+      $request_body = file_get_contents('php://input');
+      $reqData = json_decode($request_body, true);
+      if(isset($reqData['story'])){
+        $time = time();
+        $insert = DB_Insert(array(
+          'Table' => 'stories',
+          'Fields'=> array(
+            'story_title' => $reqData['story']['story_title'],
+            'story_text' => $reqData['story']['story_text'],
+            'story_date' => $reqData['story']['story_date'],
+            'created_date' => $time,
+            'updated_date' => $time,
+            'story_status' => STORY_ACTIVE,
+          )
+        ));
+        if($insert) {
+          $data['story_id'] = $insert;
+          $status = true;
+        }
+      } else {
+        $error = 'Invalid prameters';
+      }
+    }
+    return array('status' => $status, 'data' => $data, 'error' => $error);
+  }
 }
 
 ?>
